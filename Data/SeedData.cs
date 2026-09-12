@@ -11,6 +11,7 @@ public static class SeedData
         using var scope = services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         await db.Database.EnsureCreatedAsync();
+        await EnsureDocumentTableAsync(db);
 
         var users = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
         var roles = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -63,5 +64,25 @@ public static class SeedData
     private static void EnsureSucceeded(IdentityResult result)
     {
         if (!result.Succeeded) throw new InvalidOperationException(string.Join(", ", result.Errors.Select(e => e.Description)));
+    }
+
+    private static async Task EnsureDocumentTableAsync(ApplicationDbContext db)
+    {
+        await db.Database.ExecuteSqlRawAsync("""
+            CREATE TABLE IF NOT EXISTS "ApplicationDocuments" (
+                "Id" INTEGER NOT NULL CONSTRAINT "PK_ApplicationDocuments" PRIMARY KEY AUTOINCREMENT,
+                "JobApplicationId" INTEGER NOT NULL,
+                "FileName" TEXT NOT NULL,
+                "ContentType" TEXT NOT NULL,
+                "Data" BLOB NOT NULL,
+                "UploadedAt" TEXT NOT NULL,
+                CONSTRAINT "FK_ApplicationDocuments_JobApplications_JobApplicationId"
+                    FOREIGN KEY ("JobApplicationId") REFERENCES "JobApplications" ("Id") ON DELETE CASCADE
+            );
+            """);
+        await db.Database.ExecuteSqlRawAsync("""
+            CREATE UNIQUE INDEX IF NOT EXISTS "IX_ApplicationDocuments_JobApplicationId"
+                ON "ApplicationDocuments" ("JobApplicationId");
+            """);
     }
 }

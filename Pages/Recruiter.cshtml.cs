@@ -49,8 +49,14 @@ public class RecruiterModel(ApplicationDbContext db) : PageModel
     private async Task LoadAsync()
     {
         Jobs = await db.JobListings.OrderByDescending(j => j.PostedAt).ToListAsync();
-        Applications = await db.JobApplications.Include(a => a.JobListing).OrderByDescending(a => a.UpdatedAt).ToListAsync();
+        Applications = await db.JobApplications.Include(a => a.JobListing).Include(a => a.Document).OrderByDescending(a => a.UpdatedAt).ToListAsync();
         CandidateEmails = await db.Users.ToDictionaryAsync(u => u.Id, u => u.Email ?? "ไม่ทราบอีเมล");
+    }
+
+    public async Task<IActionResult> OnGetResumeAsync(int id)
+    {
+        var document = await db.ApplicationDocuments.SingleOrDefaultAsync(d => d.JobApplicationId == id);
+        return document is null ? NotFound() : File(document.Data, document.ContentType, document.FileName);
     }
 
     public sealed class JobInput

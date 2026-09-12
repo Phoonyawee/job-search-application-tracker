@@ -34,10 +34,10 @@
 
 <section class="panel management-section">
     <h2>ผู้สมัครทั้งหมด (@Model.Applications.Count)</h2>
-    <div class="table-wrap"><table><thead><tr><th>ผู้สมัคร</th><th>ตำแหน่ง</th><th>สถานะ</th><th>อัปเดตล่าสุด</th></tr></thead><tbody>
+    <div class="table-wrap"><table><thead><tr><th>ผู้สมัคร</th><th>ตำแหน่ง</th><th>สถานะ</th><th>Resume/CV</th><th>อัปเดตล่าสุด</th></tr></thead><tbody>
     @foreach (var application in Model.Applications)
     {
-        <tr><td>@Model.CandidateEmails.GetValueOrDefault(application.UserId, "ไม่ทราบอีเมล")</td><td>@application.JobListing.Title</td><td><span class="status">@application.Status.ToThai()</span></td><td>@application.UpdatedAt.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</td></tr>
+        <tr><td>@Model.CandidateEmails.GetValueOrDefault(application.UserId, "ไม่ทราบอีเมล")</td><td>@application.JobListing.Title</td><td><span class="status">@application.Status.ToThai()</span></td><td>@if (application.Document is null) { <span>ยังไม่แนบ</span> } else { <a asp-page-handler="Resume" asp-route-id="@application.Id">ดาวน์โหลด @application.Document.FileName</a> }</td><td>@application.UpdatedAt.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</td></tr>
     }
     </tbody></table></div>
 </section>
