@@ -10,9 +10,13 @@ Skill-based job matching and application tracking built as a portfolio project f
 - Filters opportunities by keyword, location, and match score
 - Saves jobs and tracks Applied, Interview, Offer, and Rejected stages
 - Stores follow-up dates and notes per signed-in user
+- Uploads validated PDF or DOCX resumes for each application
 - Lets recruiters publish jobs, close listings, and review applicants
+- Lets recruiters securely download resumes from the applicant list
 - Lets administrators review accounts and assign role-based access
 - Uses ASP.NET Core Razor Pages, Identity, EF Core, and SQLite
+
+Uploaded files are stored in SQLite for this portfolio demo. Production workloads should use private object storage.
 
 ## Demo accounts
 

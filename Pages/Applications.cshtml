@@ -10,6 +10,9 @@
     <p>อัปเดตสถานะ บันทึกช่วยจำ และวันติดตามผลได้จากหน้าเดียว</p>
 </header>
 
+@if (Model.Message is not null) { <div class="notice success">@Model.Message</div> }
+@if (Model.ErrorMessage is not null) { <div class="notice error">@Model.ErrorMessage</div> }
+
 <section class="tracker-list">
 @if (Model.Applications.Count == 0)
 {
@@ -23,6 +26,15 @@
             <h2>@application.JobListing.Title</h2>
             <p>@application.JobListing.Company · @application.JobListing.Location</p>
             <span>อัปเดตเมื่อ @application.UpdatedAt.ToLocalTime().ToString("dd/MM/yyyy")</span>
+            <form method="post" enctype="multipart/form-data" asp-page-handler="Upload" class="document-form">
+                <input type="hidden" name="id" value="@application.Id" />
+                <label>Resume/CV (.pdf หรือ .docx ไม่เกิน 5 MB)<input type="file" name="resume" accept=".pdf,.docx" required /></label>
+                <button class="button secondary" type="submit">@(application.Document is null ? "แนบไฟล์" : "เปลี่ยนไฟล์")</button>
+            </form>
+            @if (application.Document is not null)
+            {
+                <a class="document-link" asp-page-handler="Resume" asp-route-id="@application.Id">ดาวน์โหลด @application.Document.FileName</a>
+            }
         </div>
         <form method="post" class="tracker-form">
             <input type="hidden" name="id" value="@application.Id" />

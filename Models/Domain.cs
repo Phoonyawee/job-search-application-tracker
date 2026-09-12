@@ -47,6 +47,19 @@ public class JobApplication
     public string Notes { get; set; } = "";
     public DateOnly? FollowUpDate { get; set; }
     public DateTime UpdatedAt { get; set; }
+    public ApplicationDocument? Document { get; set; }
+}
+
+public class ApplicationDocument
+{
+    public int Id { get; set; }
+    public int JobApplicationId { get; set; }
+    public JobApplication JobApplication { get; set; } = null!;
+    public required string FileName { get; set; }
+    public required string ContentType { get; set; }
+    // ponytail: database BLOBs fit this 5 MB portfolio demo; move to object storage when file volume grows.
+    public required byte[] Data { get; set; }
+    public DateTime UploadedAt { get; set; }
 }
 
 public record JobMatch(JobListing Job, int Score, ApplicationStatus? Status = null);

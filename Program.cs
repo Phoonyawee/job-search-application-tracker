@@ -7,6 +7,7 @@ using CareerPilot.Services;
 if (args.Contains("--self-check"))
 {
     MatchService.SelfCheck();
+    ResumeFileValidator.SelfCheck();
     Console.WriteLine("Self-check passed.");
     return;
 }
