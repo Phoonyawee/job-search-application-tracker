@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] · CareerPilot</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="site-header">
+        <nav class="nav-wrap" aria-label="Main navigation">
+            <a class="brand" asp-page="/Index"><span>CP</span>CareerPilot</a>
+            <div class="nav-links">
+                <a asp-page="/Index">Dashboard</a>
+                <a asp-page="/Jobs">Find Jobs</a>
+                <a asp-page="/Applications">Applications</a>
+            </div>
+            <partial name="_LoginPartial" />
+        </nav>
+    </header>
+    <main class="page-shell">@RenderBody()</main>
+    <footer><div class="page-shell">CareerPilot portfolio demo · Job listings and companies are fictional.</div></footer>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

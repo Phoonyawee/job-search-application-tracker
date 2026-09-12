@@ -1,0 +1,46 @@
+@page
+@model JobsModel
+@{
+    ViewData["Title"] = "Find Jobs";
+}
+
+<header class="page-heading">
+    <span class="eyebrow">OPPORTUNITY MATCHING</span>
+    <h1>Find jobs that fit your skills</h1>
+    <p>Demo listings are ranked using your portfolio skill profile.</p>
+</header>
+
+<form method="get" class="filter panel">
+    <label>Keyword<input asp-for="Keyword" placeholder="Title, company, or skill" /></label>
+    <label>Location<select asp-for="Location"><option value="">All locations</option>@foreach (var item in Model.Locations) { <option>@item</option> }</select></label>
+    <label>Minimum match<select asp-for="MinimumMatch"><option value="0">Any match</option><option value="50">50%+</option><option value="75">75%+</option><option value="100">100%</option></select></label>
+    <button class="button primary" type="submit">Search jobs</button>
+</form>
+
+<div class="result-count">@Model.Matches.Count role(s) found</div>
+<section class="job-list">
+@foreach (var match in Model.Matches)
+{
+    <article class="job-card">
+        <div class="job-main">
+            <div class="job-title"><div><h2>@match.Job.Title</h2><p>@match.Job.Company · @match.Job.Location · @match.Job.WorkMode</p></div><span class="match">@match.Score% match</span></div>
+            <p>@match.Job.Description</p>
+            <div class="skill-list">@foreach (var skill in match.Job.RequiredSkills.Split(',')) { <span>@skill.Trim()</span> }</div>
+            <div class="job-meta"><span>@match.Job.EmploymentType</span><span>@match.Job.SalaryRange</span><span>Posted @match.Job.PostedAt.ToString("dd MMM")</span></div>
+        </div>
+        <form method="post" class="job-actions">
+            <input type="hidden" name="jobId" value="@match.Job.Id" />
+            @if (match.Status is null)
+            {
+                <button class="button secondary" name="status" value="Saved">Save</button>
+                <button class="button primary" name="status" value="Applied">Mark applied</button>
+            }
+            else
+            {
+                <span class="status">@match.Status</span>
+                <a asp-page="/Applications">Update application →</a>
+            }
+        </form>
+    </article>
+}
+</section>

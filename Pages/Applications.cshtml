@@ -1,0 +1,36 @@
+@page
+@model ApplicationsModel
+@{
+    ViewData["Title"] = "Applications";
+}
+
+<header class="page-heading">
+    <span class="eyebrow">APPLICATION PIPELINE</span>
+    <h1>Track every next step</h1>
+    <p>Update status, notes, and follow-up dates from one practical workspace.</p>
+</header>
+
+<section class="tracker-list">
+@if (Model.Applications.Count == 0)
+{
+    <div class="panel empty">No applications yet. <a asp-page="/Jobs">Find a matching role →</a></div>
+}
+@foreach (var application in Model.Applications)
+{
+    <article class="tracker-card">
+        <div class="tracker-summary">
+            <span class="status">@application.Status</span>
+            <h2>@application.JobListing.Title</h2>
+            <p>@application.JobListing.Company · @application.JobListing.Location</p>
+            <span>Updated @application.UpdatedAt.ToLocalTime().ToString("dd MMM yyyy")</span>
+        </div>
+        <form method="post" class="tracker-form">
+            <input type="hidden" name="id" value="@application.Id" />
+            <label>Status<select name="status">@foreach (var status in Enum.GetValues<ApplicationStatus>()) { <option value="@status" selected="@(status == application.Status)">@status</option> }</select></label>
+            <label>Follow up<input type="date" name="followUpDate" value="@application.FollowUpDate?.ToString("yyyy-MM-dd")" /></label>
+            <label class="wide">Notes<textarea name="notes" maxlength="500" rows="2">@application.Notes</textarea></label>
+            <button class="button primary" type="submit">Save changes</button>
+        </form>
+    </article>
+}
+</section>
