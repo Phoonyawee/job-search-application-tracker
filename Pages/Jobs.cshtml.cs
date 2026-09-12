@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CareerPilot.Pages;
 
-[Authorize]
+[Authorize(Roles = "Candidate")]
 public class JobsModel(ApplicationDbContext db, UserManager<IdentityUser> users) : PageModel
 {
     [BindProperty(SupportsGet = true)] public string? Keyword { get; set; }

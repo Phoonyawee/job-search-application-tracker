@@ -12,8 +12,19 @@
             <a class="brand" asp-page="/Index"><span>CP</span>CareerPilot</a>
             <div class="nav-links">
                 <a asp-page="/Index">แดชบอร์ด</a>
-                <a asp-page="/Jobs">ค้นหางาน</a>
-                <a asp-page="/Applications">ใบสมัครของฉัน</a>
+                @if (User.IsInRole("Candidate"))
+                {
+                    <a asp-page="/Jobs">ค้นหางาน</a>
+                    <a asp-page="/Applications">ใบสมัครของฉัน</a>
+                }
+                @if (User.IsInRole("Recruiter") || User.IsInRole("Admin"))
+                {
+                    <a asp-page="/Recruiter">ฝ่ายสรรหา</a>
+                }
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-page="/Admin">ผู้ดูแลระบบ</a>
+                }
             </div>
             <partial name="_LoginPartial" />
         </nav>

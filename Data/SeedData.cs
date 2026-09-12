@@ -13,14 +13,15 @@ public static class SeedData
         await db.Database.EnsureCreatedAsync();
 
         var users = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
-        const string email = "candidate@careerpilot.local";
-        var user = await users.FindByEmailAsync(email);
-        if (user is null)
+        var roles = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        foreach (var role in new[] { "Candidate", "Recruiter", "Admin" })
         {
-            user = new IdentityUser { UserName = email, Email = email, EmailConfirmed = true };
-            var result = await users.CreateAsync(user, "Demo123!");
-            if (!result.Succeeded) throw new InvalidOperationException(string.Join(", ", result.Errors.Select(e => e.Description)));
+            if (!await roles.RoleExistsAsync(role)) EnsureSucceeded(await roles.CreateAsync(new IdentityRole(role)));
         }
+
+        var user = await EnsureUserAsync(users, "candidate@careerpilot.local", "Candidate");
+        await EnsureUserAsync(users, "recruiter@careerpilot.local", "Recruiter");
+        await EnsureUserAsync(users, "admin@careerpilot.local", "Admin");
 
         if (!await db.JobListings.AnyAsync())
         {
@@ -45,4 +46,22 @@ public static class SeedData
 
     private static JobListing Job(string title, string company, string location, string mode, string type, string salary, string description, string skills, int daysAgo) =>
         new() { Title = title, Company = company, Location = location, WorkMode = mode, EmploymentType = type, SalaryRange = salary, Description = description, RequiredSkills = skills, PostedAt = DateTime.UtcNow.AddDays(-daysAgo) };
+
+    private static async Task<IdentityUser> EnsureUserAsync(UserManager<IdentityUser> users, string email, string role)
+    {
+        var user = await users.FindByEmailAsync(email);
+        if (user is null)
+        {
+            user = new IdentityUser { UserName = email, Email = email, EmailConfirmed = true };
+            var result = await users.CreateAsync(user, "Demo123!");
+            if (!result.Succeeded) throw new InvalidOperationException(string.Join(", ", result.Errors.Select(e => e.Description)));
+        }
+        if ((await users.GetRolesAsync(user)).Count == 0) EnsureSucceeded(await users.AddToRoleAsync(user, role));
+        return user;
+    }
+
+    private static void EnsureSucceeded(IdentityResult result)
+    {
+        if (!result.Succeeded) throw new InvalidOperationException(string.Join(", ", result.Errors.Select(e => e.Description)));
+    }
 }

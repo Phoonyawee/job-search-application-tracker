@@ -16,12 +16,24 @@
             </div>
         </div>
         <aside class="demo-card">
-            <span class="eyebrow">บัญชีสำหรับทดลองใช้</span>
-            <strong>candidate@careerpilot.local</strong>
+            <span class="eyebrow">บัญชีสาธิต 3 บทบาท</span>
+            <strong>ผู้สมัคร: candidate@careerpilot.local</strong>
+            <strong>HR: recruiter@careerpilot.local</strong>
+            <strong>Admin: admin@careerpilot.local</strong>
             <code>Demo123!</code>
-            <p>ทดลองระบบจับคู่ทักษะ บันทึกงาน และติดตามสถานะใบสมัคร</p>
+            <p>ใช้รหัสผ่านเดียวกันทุกบัญชี เพื่อทดลองสิทธิ์ของแต่ละบทบาท</p>
         </aside>
     </section>
+}
+else if (User.IsInRole("Admin"))
+{
+    <header class="page-heading"><span class="eyebrow">ADMINISTRATOR</span><h1>ศูนย์ควบคุมระบบ</h1><p>จัดการบัญชีและบทบาท พร้อมเข้าดูข้อมูลฝ่ายสรรหา</p></header>
+    <section class="role-actions"><a class="panel" asp-page="/Admin"><strong>จัดการผู้ใช้และสิทธิ์</strong><span>ตรวจสอบและเปลี่ยนบทบาทบัญชี</span></a><a class="panel" asp-page="/Recruiter"><strong>ดูข้อมูลฝ่ายสรรหา</strong><span>จัดการประกาศงานและตรวจสอบผู้สมัคร</span></a></section>
+}
+else if (User.IsInRole("Recruiter"))
+{
+    <header class="page-heading"><span class="eyebrow">RECRUITER</span><h1>พื้นที่ฝ่ายสรรหา</h1><p>สร้างประกาศงานและติดตามผู้สมัครจากหน้าเดียว</p></header>
+    <a class="panel role-link" asp-page="/Recruiter"><strong>เปิดหน้าจัดการฝ่ายสรรหา →</strong></a>
 }
 else
 {
