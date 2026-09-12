@@ -5,10 +5,10 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <span>@User.Identity?.Name</span>
-    <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })"><button type="submit">Logout</button></form>
+    <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })"><button type="submit">ออกจากระบบ</button></form>
 }
 else
 {
-    <a asp-area="Identity" asp-page="/Account/Login">Login</a>
+    <a asp-area="Identity" asp-page="/Account/Login">เข้าสู่ระบบ</a>
 }
 </div>

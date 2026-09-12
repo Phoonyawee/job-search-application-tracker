@@ -1,59 +1,58 @@
 @page
 @model IndexModel
 @{
-    ViewData["Title"] = "Dashboard";
+    ViewData["Title"] = "แดชบอร์ด";
 }
 
 @if (!User.Identity?.IsAuthenticated ?? true)
 {
     <section class="hero">
         <div>
-            <span class="eyebrow">SMARTER JOB SEARCH</span>
-            <h1>Turn your skills into the right opportunity.</h1>
-            <p>CareerPilot compares your technical profile with curated roles and keeps every application, follow-up, and interview in one place.</p>
+            <span class="eyebrow">ค้นหางานให้ตรงกับทักษะ</span>
+            <h1>เปลี่ยนทักษะของคุณให้เป็นโอกาสที่ใช่</h1>
+            <p>CareerPilot เปรียบเทียบทักษะของคุณกับตำแหน่งงาน พร้อมจัดการใบสมัคร วันติดตามผล และการสัมภาษณ์ไว้ในที่เดียว</p>
             <div class="actions">
-                <a class="button primary" asp-area="Identity" asp-page="/Account/Login">Open demo dashboard</a>
-                <a class="button secondary" asp-area="Identity" asp-page="/Account/Register">Create account</a>
+                <a class="button primary" asp-area="Identity" asp-page="/Account/Login">เข้าสู่ระบบสาธิต</a>
             </div>
         </div>
         <aside class="demo-card">
-            <span class="eyebrow">DEMO ACCOUNT</span>
+            <span class="eyebrow">บัญชีสำหรับทดลองใช้</span>
             <strong>candidate@careerpilot.local</strong>
             <code>Demo123!</code>
-            <p>Explore skill matching, saved jobs, and the application tracker.</p>
+            <p>ทดลองระบบจับคู่ทักษะ บันทึกงาน และติดตามสถานะใบสมัคร</p>
         </aside>
     </section>
 }
 else
 {
     <header class="page-heading">
-        <span class="eyebrow">CAREER OVERVIEW</span>
-        <h1>Your job search, at a glance</h1>
-        <p>Prioritize strong matches and never miss a follow-up.</p>
+        <span class="eyebrow">ภาพรวมการหางาน</span>
+        <h1>จัดการทุกโอกาสได้ในหน้าเดียว</h1>
+        <p>เริ่มจากงานที่ตรงกับทักษะมากที่สุด และไม่พลาดกำหนดติดตามผล</p>
     </header>
 
     <section class="stats">
-        <article><span>OPEN ROLES</span><strong>@Model.OpenRoles</strong></article>
-        <article><span>STRONG MATCHES</span><strong>@Model.StrongMatches</strong></article>
-        <article><span>ACTIVE APPLICATIONS</span><strong>@Model.ActiveApplications</strong></article>
-        <article><span>INTERVIEWS</span><strong>@Model.Interviews</strong></article>
+        <article><span>ตำแหน่งที่เปิดรับ</span><strong>@Model.OpenRoles</strong></article>
+        <article><span>ตรงกับทักษะสูง</span><strong>@Model.StrongMatches</strong></article>
+        <article><span>ใบสมัครที่กำลังดำเนินการ</span><strong>@Model.ActiveApplications</strong></article>
+        <article><span>นัดสัมภาษณ์</span><strong>@Model.Interviews</strong></article>
     </section>
 
     <section class="dashboard-grid">
         <article class="panel">
-            <div class="panel-heading"><div><span class="eyebrow">RECOMMENDED</span><h2>Best matches</h2></div><a asp-page="/Jobs">View all roles →</a></div>
+            <div class="panel-heading"><div><span class="eyebrow">แนะนำสำหรับคุณ</span><h2>งานที่ตรงกับทักษะมากที่สุด</h2></div><a asp-page="/Jobs">ดูงานทั้งหมด →</a></div>
             @foreach (var match in Model.TopMatches)
             {
                 <div class="compact-job">
                     <div><strong>@match.Job.Title</strong><span>@match.Job.Company · @match.Job.Location · @match.Job.WorkMode</span></div>
-                    <span class="match">@match.Score% match</span>
+                    <span class="match">ตรง @match.Score%</span>
                 </div>
             }
         </article>
         <aside class="panel profile">
-            <span class="eyebrow">YOUR PROFILE</span>
-            <h2>Technical strengths</h2>
-            <p>Matching is based on the skills below.</p>
+            <span class="eyebrow">โปรไฟล์ของคุณ</span>
+            <h2>ทักษะด้านเทคนิค</h2>
+            <p>ระบบใช้ทักษะเหล่านี้ในการคำนวณคะแนนความเหมาะสม</p>
             <div class="skill-list">
                 @foreach (var skill in CareerPilot.Services.MatchService.CandidateSkills) { <span>@skill</span> }
             </div>

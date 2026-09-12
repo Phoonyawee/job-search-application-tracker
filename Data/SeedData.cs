@@ -25,11 +25,11 @@ public static class SeedData
         if (!await db.JobListings.AnyAsync())
         {
             db.JobListings.AddRange(
-                Job("ERP Application Support Specialist", "Siam Manufacturing", "Chonburi", "On-site", "Full-time", "฿28,000–38,000", "Support ERP users, troubleshoot incidents, and coordinate fixes with business teams.", "ERP, IT Support, SQL, Troubleshooting", 1),
-                Job("Junior .NET Developer", "Blue Orbit Solutions", "Bangkok", "Hybrid", "Full-time", "฿30,000–42,000", "Build and maintain internal business applications with the Microsoft stack.", "C#, ASP.NET Core, SQL, Git", 2),
-                Job("IT Support Engineer", "Eastern Logistics", "Chonburi", "On-site", "Full-time", "฿25,000–34,000", "Resolve hardware, software, network, and user-account issues across branch offices.", "IT Support, Troubleshooting, SQL", 3),
-                Job("Business Systems Analyst", "Rayong Parts Group", "Rayong", "Hybrid", "Full-time", "฿35,000–48,000", "Gather requirements and improve workflows between ERP and operations teams.", "ERP, SQL, Troubleshooting, Power BI", 4),
-                Job("Web Application Developer", "RemoteCraft", "Remote", "Remote", "Contract", "฿35,000–50,000", "Deliver customer-facing features and maintain modern web applications.", "JavaScript, Next.js, Git, React, TypeScript", 5));
+                Job("ผู้เชี่ยวชาญฝ่ายสนับสนุนระบบ ERP", "Siam Manufacturing", "ชลบุรี", "หน้างาน", "เต็มเวลา", "฿28,000–38,000", "ดูแลผู้ใช้งาน ERP แก้ไขเหตุขัดข้อง และประสานงานกับทีมธุรกิจเพื่อปรับปรุงระบบ", "ERP, IT Support, SQL, Troubleshooting", 1),
+                Job("นักพัฒนา .NET ระดับ Junior", "Blue Orbit Solutions", "กรุงเทพมหานคร", "ไฮบริด", "เต็มเวลา", "฿30,000–42,000", "พัฒนาและดูแลแอปพลิเคชันภายในองค์กรด้วยเทคโนโลยี Microsoft", "C#, ASP.NET Core, SQL, Git", 2),
+                Job("วิศวกร IT Support", "Eastern Logistics", "ชลบุรี", "หน้างาน", "เต็มเวลา", "฿25,000–34,000", "แก้ไขปัญหาฮาร์ดแวร์ ซอฟต์แวร์ เครือข่าย และบัญชีผู้ใช้ของสำนักงานสาขา", "IT Support, Troubleshooting, SQL", 3),
+                Job("นักวิเคราะห์ระบบธุรกิจ", "Rayong Parts Group", "ระยอง", "ไฮบริด", "เต็มเวลา", "฿35,000–48,000", "เก็บความต้องการและปรับปรุงกระบวนการทำงานระหว่างระบบ ERP กับทีมปฏิบัติการ", "ERP, SQL, Troubleshooting, Power BI", 4),
+                Job("นักพัฒนาเว็บแอปพลิเคชัน", "RemoteCraft", "ทำงานทางไกล", "รีโมต", "สัญญาจ้าง", "฿35,000–50,000", "พัฒนาฟีเจอร์สำหรับลูกค้าและดูแลเว็บแอปพลิเคชันสมัยใหม่", "JavaScript, Next.js, Git, React, TypeScript", 5));
             await db.SaveChangesAsync();
         }
 
@@ -37,8 +37,8 @@ public static class SeedData
         {
             var jobs = await db.JobListings.OrderBy(j => j.Id).Take(2).ToListAsync();
             db.JobApplications.AddRange(
-                new JobApplication { JobListingId = jobs[0].Id, UserId = user.Id, Status = ApplicationStatus.Applied, Notes = "Submitted through company career page.", FollowUpDate = DateOnly.FromDateTime(DateTime.Today.AddDays(3)), UpdatedAt = DateTime.UtcNow },
-                new JobApplication { JobListingId = jobs[1].Id, UserId = user.Id, Status = ApplicationStatus.Saved, Notes = "Review the job description before applying.", UpdatedAt = DateTime.UtcNow });
+                new JobApplication { JobListingId = jobs[0].Id, UserId = user.Id, Status = ApplicationStatus.Applied, Notes = "ส่งใบสมัครผ่านหน้าเว็บไซต์ของบริษัทแล้ว", FollowUpDate = DateOnly.FromDateTime(DateTime.Today.AddDays(3)), UpdatedAt = DateTime.UtcNow },
+                new JobApplication { JobListingId = jobs[1].Id, UserId = user.Id, Status = ApplicationStatus.Saved, Notes = "ตรวจรายละเอียดงานอีกครั้งก่อนสมัคร", UpdatedAt = DateTime.UtcNow });
             await db.SaveChangesAsync();
         }
     }

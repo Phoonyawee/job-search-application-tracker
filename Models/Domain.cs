@@ -9,6 +9,19 @@ public enum ApplicationStatus
     Rejected
 }
 
+public static class ApplicationStatusLabels
+{
+    public static string ToThai(this ApplicationStatus status) => status switch
+    {
+        ApplicationStatus.Saved => "บันทึกไว้",
+        ApplicationStatus.Applied => "สมัครแล้ว",
+        ApplicationStatus.Interview => "นัดสัมภาษณ์",
+        ApplicationStatus.Offer => "ได้รับข้อเสนอ",
+        ApplicationStatus.Rejected => "ไม่ผ่านการคัดเลือก",
+        _ => status.ToString()
+    };
+}
+
 public class JobListing
 {
     public int Id { get; set; }

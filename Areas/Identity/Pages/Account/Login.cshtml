@@ -1,0 +1,24 @@
+@page
+@model CareerPilot.Areas.Identity.Pages.Account.LoginModel
+@{
+    ViewData["Title"] = "เข้าสู่ระบบ";
+}
+
+<section class="login-card panel">
+    <span class="eyebrow">ยินดีต้อนรับกลับ</span>
+    <h1>เข้าสู่ระบบ CareerPilot</h1>
+    <p>ใช้บัญชีสาธิตเพื่อทดลองระบบค้นหาและติดตามงาน</p>
+    <div class="demo-login"><strong>อีเมล:</strong> candidate@careerpilot.local<br /><strong>รหัสผ่าน:</strong> Demo123!</div>
+    <form method="post">
+        <input type="hidden" asp-for="ReturnUrl" />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <label asp-for="Input.Email">อีเมล</label>
+        <input asp-for="Input.Email" autocomplete="username" />
+        <span asp-validation-for="Input.Email" class="text-danger"></span>
+        <label asp-for="Input.Password">รหัสผ่าน</label>
+        <input asp-for="Input.Password" autocomplete="current-password" />
+        <span asp-validation-for="Input.Password" class="text-danger"></span>
+        <label class="remember"><input asp-for="Input.RememberMe" /> จดจำการเข้าสู่ระบบ</label>
+        <button class="button primary" type="submit">เข้าสู่ระบบ</button>
+    </form>
+</section>

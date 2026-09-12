@@ -1,44 +1,44 @@
 @page
 @model JobsModel
 @{
-    ViewData["Title"] = "Find Jobs";
+    ViewData["Title"] = "ค้นหางาน";
 }
 
 <header class="page-heading">
-    <span class="eyebrow">OPPORTUNITY MATCHING</span>
-    <h1>Find jobs that fit your skills</h1>
-    <p>Demo listings are ranked using your portfolio skill profile.</p>
+    <span class="eyebrow">จับคู่โอกาสกับทักษะ</span>
+    <h1>ค้นหางานที่เหมาะกับคุณ</h1>
+    <p>ตำแหน่งงานตัวอย่างถูกจัดอันดับจากทักษะใน Portfolio ของคุณ</p>
 </header>
 
 <form method="get" class="filter panel">
-    <label>Keyword<input asp-for="Keyword" placeholder="Title, company, or skill" /></label>
-    <label>Location<select asp-for="Location"><option value="">All locations</option>@foreach (var item in Model.Locations) { <option>@item</option> }</select></label>
-    <label>Minimum match<select asp-for="MinimumMatch"><option value="0">Any match</option><option value="50">50%+</option><option value="75">75%+</option><option value="100">100%</option></select></label>
-    <button class="button primary" type="submit">Search jobs</button>
+    <label>คำค้นหา<input asp-for="Keyword" placeholder="ชื่อตำแหน่ง บริษัท หรือทักษะ" /></label>
+    <label>พื้นที่ทำงาน<select asp-for="Location"><option value="">ทุกพื้นที่</option>@foreach (var item in Model.Locations) { <option>@item</option> }</select></label>
+    <label>คะแนนขั้นต่ำ<select asp-for="MinimumMatch"><option value="0">ทุกระดับ</option><option value="50">50% ขึ้นไป</option><option value="75">75% ขึ้นไป</option><option value="100">100%</option></select></label>
+    <button class="button primary" type="submit">ค้นหางาน</button>
 </form>
 
-<div class="result-count">@Model.Matches.Count role(s) found</div>
+<div class="result-count">พบ @Model.Matches.Count ตำแหน่ง</div>
 <section class="job-list">
 @foreach (var match in Model.Matches)
 {
     <article class="job-card">
         <div class="job-main">
-            <div class="job-title"><div><h2>@match.Job.Title</h2><p>@match.Job.Company · @match.Job.Location · @match.Job.WorkMode</p></div><span class="match">@match.Score% match</span></div>
+            <div class="job-title"><div><h2>@match.Job.Title</h2><p>@match.Job.Company · @match.Job.Location · @match.Job.WorkMode</p></div><span class="match">ตรง @match.Score%</span></div>
             <p>@match.Job.Description</p>
             <div class="skill-list">@foreach (var skill in match.Job.RequiredSkills.Split(',')) { <span>@skill.Trim()</span> }</div>
-            <div class="job-meta"><span>@match.Job.EmploymentType</span><span>@match.Job.SalaryRange</span><span>Posted @match.Job.PostedAt.ToString("dd MMM")</span></div>
+            <div class="job-meta"><span>@match.Job.EmploymentType</span><span>@match.Job.SalaryRange</span><span>ประกาศเมื่อ @match.Job.PostedAt.ToString("dd/MM/yyyy")</span></div>
         </div>
         <form method="post" class="job-actions">
             <input type="hidden" name="jobId" value="@match.Job.Id" />
             @if (match.Status is null)
             {
-                <button class="button secondary" name="status" value="Saved">Save</button>
-                <button class="button primary" name="status" value="Applied">Mark applied</button>
+                <button class="button secondary" name="status" value="Saved">บันทึกไว้</button>
+                <button class="button primary" name="status" value="Applied">สมัครแล้ว</button>
             }
             else
             {
-                <span class="status">@match.Status</span>
-                <a asp-page="/Applications">Update application →</a>
+                <span class="status">@match.Status.Value.ToThai()</span>
+                <a asp-page="/Applications">อัปเดตใบสมัคร →</a>
             }
         </form>
     </article>

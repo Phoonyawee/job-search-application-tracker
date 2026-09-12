@@ -1,35 +1,35 @@
 @page
 @model ApplicationsModel
 @{
-    ViewData["Title"] = "Applications";
+    ViewData["Title"] = "ใบสมัครของฉัน";
 }
 
 <header class="page-heading">
-    <span class="eyebrow">APPLICATION PIPELINE</span>
-    <h1>Track every next step</h1>
-    <p>Update status, notes, and follow-up dates from one practical workspace.</p>
+    <span class="eyebrow">ติดตามสถานะการสมัครงาน</span>
+    <h1>วางแผนทุกขั้นตอนต่อไป</h1>
+    <p>อัปเดตสถานะ บันทึกช่วยจำ และวันติดตามผลได้จากหน้าเดียว</p>
 </header>
 
 <section class="tracker-list">
 @if (Model.Applications.Count == 0)
 {
-    <div class="panel empty">No applications yet. <a asp-page="/Jobs">Find a matching role →</a></div>
+    <div class="panel empty">ยังไม่มีใบสมัคร <a asp-page="/Jobs">ค้นหางานที่เหมาะกับคุณ →</a></div>
 }
 @foreach (var application in Model.Applications)
 {
     <article class="tracker-card">
         <div class="tracker-summary">
-            <span class="status">@application.Status</span>
+            <span class="status">@application.Status.ToThai()</span>
             <h2>@application.JobListing.Title</h2>
             <p>@application.JobListing.Company · @application.JobListing.Location</p>
-            <span>Updated @application.UpdatedAt.ToLocalTime().ToString("dd MMM yyyy")</span>
+            <span>อัปเดตเมื่อ @application.UpdatedAt.ToLocalTime().ToString("dd/MM/yyyy")</span>
         </div>
         <form method="post" class="tracker-form">
             <input type="hidden" name="id" value="@application.Id" />
-            <label>Status<select name="status">@foreach (var status in Enum.GetValues<ApplicationStatus>()) { <option value="@status" selected="@(status == application.Status)">@status</option> }</select></label>
-            <label>Follow up<input type="date" name="followUpDate" value="@application.FollowUpDate?.ToString("yyyy-MM-dd")" /></label>
-            <label class="wide">Notes<textarea name="notes" maxlength="500" rows="2">@application.Notes</textarea></label>
-            <button class="button primary" type="submit">Save changes</button>
+            <label>สถานะ<select name="status">@foreach (var status in Enum.GetValues<ApplicationStatus>()) { <option value="@status" selected="@(status == application.Status)">@status.ToThai()</option> }</select></label>
+            <label>วันที่ติดตามผล<input type="date" name="followUpDate" value="@application.FollowUpDate?.ToString("yyyy-MM-dd")" /></label>
+            <label class="wide">บันทึกช่วยจำ<textarea name="notes" maxlength="500" rows="2">@application.Notes</textarea></label>
+            <button class="button primary" type="submit">บันทึกการเปลี่ยนแปลง</button>
         </form>
     </article>
 }
