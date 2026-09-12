@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CareerPilot.Pages;
 
-[Authorize]
+[Authorize(Roles = "Candidate")]
 public class ApplicationsModel(ApplicationDbContext db, UserManager<IdentityUser> users) : PageModel
 {
     public List<JobApplication> Applications { get; private set; } = [];

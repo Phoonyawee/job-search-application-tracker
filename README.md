@@ -10,12 +10,16 @@ Skill-based job matching and application tracking built as a portfolio project f
 - Filters opportunities by keyword, location, and match score
 - Saves jobs and tracks Applied, Interview, Offer, and Rejected stages
 - Stores follow-up dates and notes per signed-in user
+- Lets recruiters publish jobs, close listings, and review applicants
+- Lets administrators review accounts and assign role-based access
 - Uses ASP.NET Core Razor Pages, Identity, EF Core, and SQLite
 
-## Demo account
+## Demo accounts
 
-- Email: `candidate@careerpilot.local`
-- Password: `Demo123!`
+- Candidate: `candidate@careerpilot.local`
+- Recruiter: `recruiter@careerpilot.local`
+- Admin: `admin@careerpilot.local`
+- Password for all accounts: `Demo123!`
 
 ## Run locally
 

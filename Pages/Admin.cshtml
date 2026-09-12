@@ -1,0 +1,17 @@
+@page
+@model AdminModel
+@{
+    ViewData["Title"] = "ผู้ดูแลระบบ";
+}
+
+<header class="page-heading"><span class="eyebrow">ADMINISTRATOR</span><h1>จัดการผู้ใช้และสิทธิ์</h1><p>ตรวจสอบบัญชีและกำหนดบทบาทที่เข้าถึงแต่ละส่วนของระบบ</p></header>
+
+<section class="panel management-section">
+    <h2>บัญชีทั้งหมด (@Model.Accounts.Count)</h2>
+    <div class="table-wrap"><table><thead><tr><th>อีเมล</th><th>บทบาทปัจจุบัน</th><th>เปลี่ยนบทบาท</th></tr></thead><tbody>
+    @foreach (var account in Model.Accounts)
+    {
+        <tr><td><strong>@account.Email</strong></td><td><span class="status">@account.Role</span></td><td><form method="post" class="role-form"><input type="hidden" name="userId" value="@account.Id" /><select name="role" aria-label="บทบาทของ @account.Email"><option selected="@(account.Role == "Candidate")">Candidate</option><option selected="@(account.Role == "Recruiter")">Recruiter</option><option selected="@(account.Role == "Admin")">Admin</option></select><button class="button secondary" type="submit">บันทึก</button></form></td></tr>
+    }
+    </tbody></table></div>
+</section>
